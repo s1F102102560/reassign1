@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEITA WADA - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #E86A33;
+            --color-secondary: #7EB6D8;
+            --color-background: #F5F5F0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--color-background);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Page System */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--color-secondary);
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-logo:hover {
+            opacity: 0.8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            padding: 1rem 0;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 0.75rem 2rem;
+            color: #666;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            background: rgba(232, 106, 51, 0.1);
+            color: var(--color-primary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section Title */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-title-bar {
+            width: 4px;
+            height: 3rem;
+            background: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--color-secondary);
+            font-weight: 900;
+        }
+
+        .section-title p {
+            font-size: 0.875rem;
+            color: #999;
+            margin-top: 0.25rem;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #d55d2a;
+        }
+
+        /* Home Page */
+        .home-content {
+            display: flex;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+        }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .retro-tv {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .tv-frame {
+            background: var(--color-primary);
+            border-radius: 2rem;
+            padding: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .tv-bezel {
+            background: #333;
+            border-radius: 1.5rem;
+            padding: 1rem;
+        }
+
+        .tv-screen {
+            background: white;
+            border-radius: 1rem;
+            aspect-ratio: 21/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .tv-content {
+            text-align: center;
+            padding: 1.5rem 2rem;
+        }
+
+        .tv-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--color-secondary);
+            letter-spacing: -0.02em;
+        }
+
+        .tv-subtitle {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-top: 0.5rem;
+        }
+
+        .tv-info {
+            margin-top: 1rem;
+        }
+
+        .info-main {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .info-sub {
+            font-size: 0.625rem;
+            color: #999;
+            margin-top: 0.25rem;
+        }
+
+        .tv-stand {
+            width: 6rem;
+            height: 1rem;
+            background: var(--color-primary);
+            border-radius: 0 0 0.5rem 0.5rem;
+            margin: 0.5rem auto 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-text {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .link-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 0.75rem;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .link-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .link-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .link-content {
+            flex: 1;
+        }
+
+        .link-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .link-desc {
+            font-size: 0.875rem;
+            color: #999;
+        }
+
+        .link-arrow {
+            color: #ccc;
+            font-size: 1.25rem;
+        }
+
+        .decorative-icon {
+            position: fixed;
+            font-size: 4rem;
+            opacity: 0.6;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .icon-1 {
+            right: 2rem;
+            top: 8rem;
+        }
+
+        .icon-2 {
+            right: 3rem;
+            bottom: 8rem;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Profile Page */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .profile-image {
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #e5e5e5 0%, #d4d4d4 100%);
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-image-placeholder {
+            text-align: center;
+            color: #999;
+        }
+
+        .profile-image-placeholder .icon {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-name {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--color-secondary);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        .profile-items {
+            margin-bottom: 2.5rem;
+        }
+
+        .profile-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .item-bar {
+            width: 4px;
+            height: 1.5rem;
+            background: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        .profile-about {
+            margin-bottom: 2rem;
+        }
+
+        .profile-about h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .profile-about h3 span {
+            font-size: 1.5rem;
+        }
+
+        .profile-about p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Works Page */
+        .work-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .work-card-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .works-video {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .badge {
+            position: absolute;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .badge-live {
+            top: 1rem;
+            left: 1rem;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+        }
+
+        .badge-latest {
+            top: 1rem;
+            right: 1rem;
+            background: rgba(34, 197, 94, 0.9);
+            color: white;
+        }
+
+        .badge-award {
+            top: 1rem;
+            right: 1rem;
+            background: #fbbf24;
+            color: #78350f;
+        }
+
+        .video-content {
+            text-align: center;
+        }
+
+        .play-btn {
+            width: 4rem;
+            height: 4rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #667eea;
+            margin: 0 auto 1rem;
+        }
+
+        .video-title {
+            color: white;
+            font-weight: 600;
+        }
+
+        .video-emoji {
+            font-size: 5rem;
+        }
+
+        .work-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .work-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .work-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-secondary);
+        }
+
+        .work-header h3 {
+            font-size: 1.25rem;
+            color: #333;
+        }
+
+        .work-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.375rem 0.875rem;
+            background: rgba(126, 182, 216, 0.1);
+            color: var(--color-secondary);
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .tag-orange {
+            background: rgba(232, 106, 51, 0.1);
+            color: var(--color-primary);
+        }
+
+        /* Skills Page */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .skill-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .skill-header h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+        }
+
+        .skill-item {
+            margin-bottom: 1rem;
+        }
+
+        .skill-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .skill-bar {
+            height: 0.5rem;
+            background: #f0f0f0;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+            border-radius: 1rem;
+            transition: width 1s ease-out;
+        }
+
+        .tools-section,
+        .education-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .tool-item {
+            padding: 0.75rem 1rem;
+            background: var(--color-background);
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: 500;
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        .education-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .education-icon {
+            font-size: 2.5rem;
+        }
+
+        .education-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.125rem;
+        }
+
+        .education-period {
+            color: #999;
+            font-size: 0.875rem;
+        }
+
+        /* Contact Page */
+        .contact-intro {
+            font-size: 1.125rem;
+            color: #666;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 0;
+        }
+
+        .contact-item:not(:last-child) {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+        }
+
+        .contact-label {
+            font-size: 0.875rem;
+            color: #999;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-value {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .contact-arrow {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            margin: 2rem 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        .thank-you {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .thank-you-text {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .contact-footer {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+            font-size: 0.875rem;
+            border-top: 1px solid #e5e5e5;
+            margin-top: 3rem;
+        }
+
+        .contact-footer p {
+            margin: 0.25rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .home-grid,
+            .profile-grid,
+            .work-card-inner,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .decorative-icon {
+                display: none;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .tv-title {
+                font-size: 1.5rem;
+            }
+
+            .profile-name {
+                font-size: 2.5rem;
+            }
+
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a class="nav-logo" onclick="showPage('home')">KEITA WADA</a>
+            <ul class="nav-links">
+                <li><a onclick="showPage('home')" data-page="home" class="active">Home</a></li>
+                <li><a onclick="showPage('profile')" data-page="profile">Profile</a></li>
+                <li><a onclick="showPage('works')" data-page="works">Works</a></li>
+                <li><a onclick="showPage('skills')" data-page="skills">Skills</a></li>
+                <li><a onclick="showPage('contact')" data-page="contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a onclick="showPage('home')" data-page="home" class="active">Home</a>
+            <a onclick="showPage('profile')" data-page="profile">Profile</a>
+            <a onclick="showPage('works')" data-page="works">Works</a>
+            <a onclick="showPage('skills')" data-page="skills">Skills</a>
+            <a onclick="showPage('contact')" data-page="contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="container">
+            <div class="home-content">
+                <div class="home-grid">
+                    <div>
+                        <div class="retro-tv">
+                            <div class="tv-frame">
+                                <div class="tv-bezel">
+                                    <div class="tv-screen">
+                                        <div class="tv-content">
+                                            <h1 class="tv-title">KEITA WADA</h1>
+                                            <p class="tv-subtitle">映像デザイナー</p>
+                                            <div class="tv-info">
+                                                <p class="info-main">Portfolio</p>
+                                                <p class="info-sub">1F10210256 和田慶太 | 東洋大学 情報連携学部</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tv-stand"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 class="welcome-title">ようこそ、私のポートフォリオへ</h2>
+                        <p class="welcome-text">
+                            人を感動させるものを作ることが好きです。<br>
+                            映像制作を通じて、多くの人々の心に残る作品を作りたいと考えています。
+                        </p>
+
+                        <div class="link-cards">
+                            <button class="link-card" onclick="showPage('profile')">
+                                <div class="link-icon" style="background: rgba(126, 182, 216, 0.1);">👤</div>
+                                <div class="link-content">
+                                    <p class="link-title">Profile</p>
+                                    <p class="link-desc">自己紹介を見る</p>
+                                </div>
+                                <span class="link-arrow">→</span>
+                            </button>
+
+                            <button class="link-card" onclick="showPage('works')">
+                                <div class="link-icon" style="background: rgba(232, 106, 51, 0.1);">🎬</div>
+                                <div class="link-content">
+                                    <p class="link-title">Works</p>
+                                    <p class="link-desc">作品を見る</p>
+                                </div>
+                                <span class="link-arrow">→</span>
+                            </button>
+
+                            <button class="link-card" onclick="showPage('contact')">
+                                <div class="link-icon" style="background: rgba(34, 197, 94, 0.1);">✉️</div>
+                                <div class="link-content">
+                                    <p class="link-title">Contact</p>
+                                    <p class="link-desc">お問い合わせ</p>
+                                </div>
+                                <span class="link-arrow">→</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="decorative-icon icon-1">🎥</div>
+            <div class="decorative-icon icon-2">📹</div>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile" class="page">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-title-bar"></div>
+                <div>
+                    <h2>Profile</h2>
+                    <p>プロフィール</p>
+                </div>
+            </div>
+
+            <div class="profile-grid">
+                <div class="profile-image">
+                    <div class="profile-image-placeholder">
+                        <div class="icon">👤</div>
+                        <p>Profile Photo</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="profile-name">KEITA<br>WADA</h2>
+                    
+                    <div class="profile-items">
+                        <div class="profile-item">
+                            <div class="item-bar"></div>
+                            <p>千葉県出身</p>
+                        </div>
+                        <div class="profile-item">
+                            <div class="item-bar"></div>
+                            <p>IT・プログラミングを学習</p>
+                        </div>
+                        <div class="profile-item">
+                            <div class="item-bar"></div>
+                            <p>高校までソフトテニス部に所属</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-about">
+                        <h3>好きなこと：<br><span>人を感動させるものを作ること</span></h3>
+                        <p>
+                            昔から自分の作ったものや映像で家族や友人が笑ったり、
+                            心を動かすことが好きだった。この経験から、一番好き
+                            であったテレビ制作を通して、多くの人々の心に残る作
+                            品を作りたいと考えている。
+                        </p>
+                    </div>
+
+                    <button class="btn" onclick="showPage('works')">作品を見る →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Works Page -->
+    <div id="works" class="page">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-title-bar"></div>
+                <div>
+                    <h2>Works</h2>
+                    <p>映像作品の実績</p>
+                </div>
+            </div>
+
+            <div class="work-card">
+                <div class="work-card-inner">
+                    <div class="works-video">
+                        <div class="badge badge-live">● LIVE</div>
+                        <div class="badge badge-latest">最新</div>
+                        <div class="video-content">
+                            <div class="play-btn">▶</div>
+                            <p class="video-title">自己PR動画</p>
+                        </div>
+                    </div>
+                    <div class="work-content">
+                        <div class="work-header">
+                            <span class="work-number">#1</span>
+                            <h3>自己PR動画</h3>
+                        </div>
+                        <p class="work-description">
+                            企業向けの自己紹介として、約1分の自己PR動画をYouTubeで作成した。企画から撮影、編集まで自身で行った。
+                        </p>
+                        <div class="tags">
+                            <span class="tag">企画</span>
+                            <span class="tag">撮影</span>
+                            <span class="tag">編集</span>
+                            <span class="tag">YouTube</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="work-card">
+                <div class="work-card-inner">
+                    <div class="works-video">
+                        <div class="badge badge-award">🏆 最優秀賞</div>
+                        <div class="video-content">
+                            <div class="video-emoji">🎴</div>
+                        </div>
+                    </div>
+                    <div class="work-content">
+                        <div class="work-header">
+                            <span class="work-number">#2</span>
+                            <h3>トランプドミノ映像</h3>
+                        </div>
+                        <p class="work-description">
+                            高校時代の映像祭にて企画・制作に携わった。ピタゴラスイッチを基に、最後はトランプを倒し3年5組の文字を浮かび上がらせる演出を行った。その結果、学年最優秀賞を受賞した。
+                        </p>
+                        <div class="tags">
+                            <span class="tag tag-orange">企画</span>
+                            <span class="tag tag-orange">制作</span>
+                            <span class="tag tag-orange">チームワーク</span>
+                            <span class="tag tag-orange">演出</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 2rem;">
+                <button class="btn" onclick="showPage('skills')">スキルを見る →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills Page -->
+    <div id="skills" class="page">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-title-bar"></div>
+                <div>
+                    <h2>Skills</h2>
+                    <p>できること</p>
+                </div>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon" style="background: #3b82f6;">💻</div>
+                        <h3>Programming</h3>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">
+                            <span>HTML/CSS</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">
+                            <span>JavaScript</span>
+                            <span>70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">
+                            <span>React</span>
+                            <span>65%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon" style="background: #E86A33;">🎬</div>
+                        <h3>Video Production</h3>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">
+                            <span>動画編集</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">
+                            <span>企画・構成</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">
+                            <span>撮影</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon" style="background: #a855f7;">🎨</div>
+                        <h3>Creative</h3>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">
+                            <span>デザイン</span>
+                            <span>70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label">
+                            <span>ストーリーテリング</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tools-section">
+                <h3 class="section-subtitle">使用ツール</h3>
+                <div class="tools-grid">
+                    <div class="tool-item">Adobe Premiere Pro</div>
+                    <div class="tool-item">Final Cut Pro</div>
+                    <div class="tool-item">Adobe After Effects</div>
+                    <div class="tool-item">Photoshop</div>
+                    <div class="tool-item">VS Code</div>
+                    <div class="tool-item">Figma</div>
+                </div>
+            </div>
+
+            <div class="education-section">
+                <h3 class="section-subtitle">学歴</h3>
+                <div class="education-item">
+                    <div class="education-icon">🎓</div>
+                    <div>
+                        <p class="education-title">東洋大学 情報連携学部</p>
+                        <p class="education-period">2021年 - 現在</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 2rem;">
+                <button class="btn" onclick="showPage('contact')">お問い合わせ →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-title-bar"></div>
+                <div>
+                    <h2>Contact</h2>
+                    <p>お問い合わせ</p>
+                </div>
+            </div>
+
+            <p class="contact-intro">
+                ご質問やお仕事のご依頼など、<br>
+                お気軽にご連絡ください。
+            </p>
+
+            <div class="contact-card">
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div>
+                        <p class="contact-label">Email</p>
+                        <p class="contact-value">keita.wada@example.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div>
+                        <p class="contact-label">Phone</p>
+                        <p class="contact-value">080-1234-5678</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-arrow">↓</div>
+
+            <div class="thank-you">
+                <p class="thank-you-text">ポートフォリオをご覧いただき<br>ありがとうございました</p>
+                <button class="btn" onclick="showPage('home')">ホームに戻る</button>
+            </div>
+
+            <footer class="contact-footer">
+                <p>© 2026 KEITA WADA</p>
+                <p>1F10210256 和田慶太 | 東洋大学 情報連携学部</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageName) {
+            // すべてのページを非表示
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 指定されたページを表示
+            document.getElementById(pageName).classList.add('active');
+            
+            // デスクトップナビゲーションのアクティブ状態を更新
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageName) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // モバイルナビゲーションのアクティブ状態を更新
+            document.querySelectorAll('.mobile-menu a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageName) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // モバイルメニューを閉じる
+            document.getElementById('mobileMenu').classList.remove('active');
+            
+            // ページトップにスクロール
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
